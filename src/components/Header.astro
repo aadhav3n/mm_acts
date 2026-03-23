@@ -1,16 +1,14 @@
 ---
 import TextSlider from "../components/TextSlider.astro";
 import Separator from "../components/Separator.astro";
+import siteLogo from "../../logo (1080 x 1080 px) (2).png";
 
 // Get the current pathname
 const currentPath = Astro.url.pathname;
 // Define a map of routes
 const routes = {
   "/": "Home",
-  "/releases/": "Releases",
-  "/store/": "Store",
-  "/history/": "History",
-  "/contact/": "Contact",
+  "/history/": "Timeline",
 };
 // Determine the active route
 const activeRoute = routes[currentPath] || null;
@@ -19,33 +17,37 @@ const activeRoute = routes[currentPath] || null;
 <header>
   <h1>
     <a href="/" class={activeRoute === "Home" ? "current" : ""}
-      ><TextSlider content="Players Club" /></a>
+      ><img class="site-logo" src={siteLogo.src} alt="Meet the Choreos" /></a
+    >
   </h1>
-  <span><TextSlider content="Record Label" /></span>
   <ul>
     <li>
       <a
-        href="/releases/"
-        class={activeRoute === "Releases" ? "current" : ""}
-        data-astro-prefetch><TextSlider content="Releases" /></a>
+        href="https://home.megamaalai.org"
+        target="_blank"
+        rel="noopener noreferrer"><TextSlider content="Home" /></a
+      >
     </li>
     <li>
       <a
         href="/history/"
-        class={activeRoute === "History" ? "current" : ""}
-        data-astro-prefetch><TextSlider content="History" /></a>
+        class={activeRoute === "Timeline" ? "current" : ""}
+        data-astro-prefetch><TextSlider content="Timeline" /></a>
     </li>
     <li>
       <a
-        href="/store/"
-        class={activeRoute === "Store" ? "current" : ""}
-        data-astro-prefetch><TextSlider content="Store" /></a>
+        href="https://tickets.megamaalai.org"
+        target="_blank"
+        rel="noopener noreferrer"><TextSlider content="Tickets" /></a
+      >
     </li>
     <li>
       <a
-        href="/contact/"
-        class={activeRoute === "Contact" ? "current" : ""}
-        data-astro-prefetch><TextSlider content="Contact" /></a>
+        href="https://www.instagram.com/megamaalai/"
+        target="_blank"
+        rel="noopener noreferrer"
+        ><TextSlider content="Contact/Sponsor" /></a
+      >
     </li>
   </ul>
 </header>
@@ -66,7 +68,13 @@ const activeRoute = routes[currentPath] || null;
   h1 {
     font-size: 1rem;
     font-weight: inherit;
+    line-height: 0;
     margin: 0;
+  }
+  .site-logo {
+    display: block;
+    width: min(220px, 45vw);
+    height: auto;
   }
   ul {
     display: flex;
