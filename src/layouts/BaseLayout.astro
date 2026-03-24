@@ -18,7 +18,7 @@ type Props = {
   description?: string;
 };
 
-const { title, description = "Meet the Acts" } = Astro.props;
+const { title, description = "Meet the Choreos" } = Astro.props;
 
 // Current page value (/home, /about, /404 ...)
 const currentPage =
@@ -26,7 +26,7 @@ const currentPage =
 ---
 
 <!doctype html>
-<html lang="en" data-page={currentPage}>
+<html lang="en" id="top" data-page={currentPage}>
   <head>
     <SEO
       title={title}
