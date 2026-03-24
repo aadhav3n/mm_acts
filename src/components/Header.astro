@@ -1,25 +1,16 @@
 ---
 import TextSlider from "../components/TextSlider.astro";
 import Separator from "../components/Separator.astro";
-import siteLogo from "../../logo (1080 x 1080 px) (2).png";
 
-// Get the current pathname
 const currentPath = Astro.url.pathname;
-// Define a map of routes
 const routes = {
   "/": "Home",
   "/history/": "Timeline",
 };
-// Determine the active route
 const activeRoute = routes[currentPath] || null;
 ---
 
 <header>
-  <h1>
-    <a href="/" class={activeRoute === "Home" ? "current" : ""}
-      ><img class="site-logo" src={siteLogo.src} alt="Meet the Choreos" /></a
-    >
-  </h1>
   <ul>
     <li>
       <a href="https://home.megamaalai.org"
@@ -74,37 +65,21 @@ const activeRoute = routes[currentPath] || null;
 <style>
   header {
     position: relative;
-    display: grid;
-    grid-template-columns: min-content auto;
+    display: flex;
+    justify-content: center;
     font-weight: 700;
     padding: 1rem 0;
-    gap: 1rem;
   }
   header a.current {
     pointer-events: none;
   }
-  h1 {
-    font-size: 1rem;
-    font-weight: inherit;
-    line-height: 0;
-    margin: 0;
-  }
-  .site-logo {
-    display: block;
-    width: min(220px, 45vw);
-    height: auto;
-  }
   ul {
     display: flex;
+    flex-wrap: wrap;
     list-style: none;
     gap: 1rem;
     margin: 0;
     padding: 0;
-    grid-column: auto / span 2;
-  }
-  @media screen and (min-width: 50em) {
-    header {
-      grid-template-columns: 20vw 1fr auto auto;
-    }
+    justify-content: center;
   }
 </style>
