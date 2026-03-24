@@ -1,20 +1,31 @@
 ---
 import TextSlider from "../components/TextSlider.astro";
 import Separator from "../components/Separator.astro";
+import siteLogo from "../../logo (1080 x 1080 px) (2).png";
 
+// Get the current pathname
 const currentPath = Astro.url.pathname;
+// Define a map of routes
 const routes = {
   "/": "Home",
   "/history/": "Timeline",
 };
+// Determine the active route
 const activeRoute = routes[currentPath] || null;
 ---
 
 <header>
+  <h1>
+    <a href="/" class={activeRoute === "Home" ? "current" : ""}
+      ><img class="site-logo" src={siteLogo.src} alt="Meet the Choreos" /></a
+    >
+  </h1>
   <ul>
     <li>
-      <a href="https://home.megamaalai.org"
-        ><TextSlider content="Home" /></a
+      <a
+        href="https://home.megamaalai.org"
+        target="_blank"
+        rel="noopener noreferrer"><TextSlider content="Home" /></a
       >
     </li>
     <li>
@@ -22,9 +33,6 @@ const activeRoute = routes[currentPath] || null;
         href="/history/"
         class={activeRoute === "Timeline" ? "current" : ""}
         data-astro-prefetch><TextSlider content="Timeline" /></a>
-    </li>
-    <li>
-      <a href="#top" data-acts-top><TextSlider content="Acts" /></a>
     </li>
     <li>
       <a
@@ -43,43 +51,42 @@ const activeRoute = routes[currentPath] || null;
     </li>
   </ul>
 </header>
-<script is:inline>
-  document.addEventListener(
-    "click",
-    function (e) {
-      const a = e.target.closest("a[data-acts-top]");
-      if (!a) return;
-      e.preventDefault();
-      const lenis = window.__lenis;
-      if (lenis && typeof lenis.scrollTo === "function") {
-        lenis.scrollTo(0, { force: true });
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    },
-    true,
-  );
-</script>
 <Separator />
 
 <style>
   header {
     position: relative;
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: min-content auto;
     font-weight: 700;
     padding: 1rem 0;
+    gap: 1rem;
   }
   header a.current {
     pointer-events: none;
   }
+  h1 {
+    font-size: 1rem;
+    font-weight: inherit;
+    line-height: 0;
+    margin: 0;
+  }
+  .site-logo {
+    display: block;
+    width: min(220px, 45vw);
+    height: auto;
+  }
   ul {
     display: flex;
-    flex-wrap: wrap;
     list-style: none;
     gap: 1rem;
     margin: 0;
     padding: 0;
-    justify-content: center;
+    grid-column: auto / span 2;
+  }
+  @media screen and (min-width: 50em) {
+    header {
+      grid-template-columns: 20vw 1fr auto auto;
+    }
   }
 </style>

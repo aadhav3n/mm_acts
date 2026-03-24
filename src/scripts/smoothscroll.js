@@ -6,8 +6,7 @@ import { gsap } from "gsap";
 export const initSmoothScrolling = () => {
   // Initialize Lenis for smooth scroll effects. Lerp value controls the smoothness.
   const lenis = new Lenis({ lerp: 0.15 });
-  window.__lenis = lenis;
-
+  
   // Ensure GSAP animations are in sync with Lenis' scroll frame updates.
   gsap.ticker.add(time => {
     lenis.raf(time * 1000); // Convert GSAP's time to milliseconds for Lenis.
