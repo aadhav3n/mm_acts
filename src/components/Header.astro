@@ -2,68 +2,94 @@
 import TextSlider from "../components/TextSlider.astro";
 import Separator from "../components/Separator.astro";
 import siteLogo from "../../logo (1080 x 1080 px) (2).png";
-
-// Get the current pathname
-const currentPath = Astro.url.pathname;
-// Define a map of routes
-const routes = {
-  "/": "Home",
-  "/history/": "Timeline",
-};
-// Determine the active route
-const activeRoute = routes[currentPath] || null;
 ---
 
 <header>
   <h1>
-    <a href="/" class={activeRoute === "Home" ? "current" : ""}
-      ><img class="site-logo" src={siteLogo.src} alt="Meet the Choreos" /></a
+    <a href="https://acts.megamaalai.org" target="_blank" rel="noopener noreferrer"
+      ><img class="site-logo" src={siteLogo.src} alt="Meet the Acts" /></a
     >
   </h1>
-  <ul>
-    <li>
-      <a
-        href="https://home.megamaalai.org"
-        target="_blank"
-        rel="noopener noreferrer"><TextSlider content="Home" /></a
-      >
-    </li>
-    <li>
-      <a
-        href="/history/"
-        class={activeRoute === "Timeline" ? "current" : ""}
-        data-astro-prefetch><TextSlider content="Timeline" /></a>
-    </li>
-    <li>
-      <a
-        href="https://tickets.megamaalai.org"
-        target="_blank"
-        rel="noopener noreferrer"><TextSlider content="Tickets" /></a
-      >
-    </li>
-    <li>
-      <a
-        href="https://www.instagram.com/megamaalai/"
-        target="_blank"
-        rel="noopener noreferrer"
-        ><TextSlider content="Contact/Sponsor" /></a
-      >
-    </li>
-  </ul>
+  <nav aria-label="Primary">
+    <ul>
+      <li>
+        <a href="https://home.megamaalai.org" target="_blank" rel="noopener noreferrer"
+          ><TextSlider content="Home" /></a
+        >
+      </li>
+      <li>
+        <a href="https://timeline.megamaalai.org" target="_blank" rel="noopener noreferrer"
+          ><TextSlider content="Timeline" /></a
+        >
+      </li>
+      <li>
+        <a href="https://acts.megamaalai.org" target="_blank" rel="noopener noreferrer"
+          ><TextSlider content="Acts" /></a
+        >
+      </li>
+      <li>
+        <a href="https://tickets.megamaalai.org" target="_blank" rel="noopener noreferrer"
+          ><TextSlider content="Tickets" /></a
+        >
+      </li>
+      <li>
+        <a
+          href="https://www.instagram.com/megamaalai/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Contact or Sponsor on Instagram"
+        >
+          <TextSlider
+            ><span class="contact-label" data-contact-sponsor-label>Contact</span></TextSlider
+          >
+        </a>
+      </li>
+    </ul>
+  </nav>
 </header>
 <Separator />
 
+<script is:inline>
+  const setupContactSponsorToggle = () => {
+    const label = document.querySelector("[data-contact-sponsor-label]");
+    if (!label) return;
+
+    const labels = ["Contact", "Sponsor"];
+    let index = 0;
+
+    if (window.__contactSponsorIntervalId) {
+      window.clearInterval(window.__contactSponsorIntervalId);
+    }
+
+    window.__contactSponsorIntervalId = window.setInterval(() => {
+      label.classList.add("is-fading");
+
+      window.setTimeout(() => {
+        index = (index + 1) % labels.length;
+        label.textContent = labels[index];
+        label.classList.remove("is-fading");
+      }, 220);
+    }, 5000);
+  };
+
+  document.addEventListener("astro:page-load", setupContactSponsorToggle);
+
+  document.addEventListener("astro:before-swap", () => {
+    if (window.__contactSponsorIntervalId) {
+      window.clearInterval(window.__contactSponsorIntervalId);
+      window.__contactSponsorIntervalId = null;
+    }
+  });
+</script>
+
 <style>
   header {
-    position: relative;
-    display: grid;
-    grid-template-columns: min-content auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     font-weight: 700;
     padding: 1rem 0;
     gap: 1rem;
-  }
-  header a.current {
-    pointer-events: none;
   }
   h1 {
     font-size: 1rem;
@@ -73,20 +99,34 @@ const activeRoute = routes[currentPath] || null;
   }
   .site-logo {
     display: block;
-    width: min(220px, 45vw);
+    width: min(160px, 35vw);
     height: auto;
+  }
+  nav {
+    width: 100%;
   }
   ul {
     display: flex;
     list-style: none;
-    gap: 1rem;
+    gap: 1.25rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     margin: 0;
     padding: 0;
-    grid-column: auto / span 2;
+  }
+  .contact-label {
+    display: inline-block;
+    min-width: 7ch;
+    text-align: center;
+    transition: opacity 0.35s ease;
+  }
+  .contact-label.is-fading {
+    opacity: 0.35;
   }
   @media screen and (min-width: 50em) {
     header {
-      grid-template-columns: 20vw 1fr auto auto;
+      padding-top: 0.8rem;
     }
   }
 </style>
